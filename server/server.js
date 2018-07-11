@@ -15,6 +15,9 @@ const passport = require('./passport')
 const app = express()
 const PORT = process.env.PORT || 8080
 
+import todoRoutes from './routes/todo.server.route';
+
+
 // ===== Middleware ====
 app.use(morgan('dev'))
 app.use(
@@ -48,6 +51,9 @@ if (process.env.NODE_ENV === 'production') {
 
 /* Express app ROUTING */
 app.use('/auth', require('./auth'))
+app.use('/api', todoRoutes);
+
+
 
 // ====== Error handler ====
 app.use(function (err, req, res, next) {
