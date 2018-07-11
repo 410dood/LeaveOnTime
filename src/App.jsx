@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Route, Link } from 'react-router-dom'
+// import { Route, Link } from 'react-router-dom'
 import './App.css'
 import LoginForm from './components/Login/LoginForm'
 import SignupForm from './components/SignupForm'
 import Header from './components/Header'
 import Home from './components/Home'
+import Destinations from './components/Destinations'
+import DestinationForm from './components/DestinationForm'
+
+import Profile from './components/Profile'
+
+// import * from 'reactstrap'
+// import * as ReactBootstrap from 'react-bootstrap'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+// import * as routes from './constants/routes';
+
 
 const DisplayLinks = props => {
 	if (props.loggedIn) {
@@ -15,6 +25,16 @@ const DisplayLinks = props => {
 					<li className="nav-item">
 						<Link to="/" className="nav-link">
 							Home
+						</Link>
+					</li>
+					<li className="nav-item">
+						<Link to="/DestinationForm" className="nav-link">
+							Destination Form
+						</Link>
+					</li>
+					<li className="nav-item">
+						<Link to="/profile" className="nav-link">
+							Profile
 						</Link>
 					</li>
 					<li>
@@ -113,8 +133,9 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<h1>This is the main App component</h1>
+				<h1>Leave On Time</h1>
 				<Header user={this.state.user} />
+
 				{/* LINKS to our different 'pages' */}
 				<DisplayLinks _logout={this._logout} loggedIn={this.state.loggedIn} />
 				{/*  ROUTES */}
@@ -131,6 +152,14 @@ class App extends Component {
 				/>
 				<Route exact path="/signup" component={SignupForm} />
 				{/* <LoginForm _login={this._login} /> */}
+				<Route
+					exact path="/DestinationForm"
+					component={DestinationForm}
+				/>
+				<Route
+					exact path="/profile"
+					component={Profile}
+				/>
 			</div>
 		)
 	}

@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../db/models/user')
+const DestinationAddress = require('../db/models/destinationAddress')
+
 const passport = require('../passport')
 
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
@@ -23,9 +25,20 @@ router.get('/user', (req, res, next) => {
 	}
 })
 
+
+router.get('/destinationAddress', (req, res, next) => {
+	console.log('===== Destination Address!!======')
+	console.log(req.destinationAddress)
+	if (req.destinationAddress) {
+		return res.json({ destinationAddress: req.destinationAddress })
+	} else {
+		return res.json({ destinationAddress: null })
+	}
+})
+
 router.post(
 	'/login',
-	function(req, res, next) {
+	function (req, res, next) {
 		console.log(req.body)
 		console.log('================')
 		next()
@@ -69,6 +82,32 @@ router.post('/signup', (req, res) => {
 		newUser.save((err, savedUser) => {
 			if (err) return res.json(err)
 			return res.json(savedUser)
+		})
+	})
+})
+
+
+router.post('/destinationAddress', (req, res) => {
+	const { dest_title, dest_address, dest_city, dest_state, dest_zipcode, dest_time } = req.body
+	console.log(typeof req.body);
+	// ADD VALIDATION
+	DestinationAddress.findOne({ 'dest_title': username }, (err, userMatch) => {
+		if (destinationAddressMatch) {
+			return res.json({
+				error: `Sorry, already a destination with the title: ${destinationAddress}`
+			})
+		}
+		const newDestinationAddress = new DestinationAddress({
+			'dest_title': title,
+			'dest_address': address,
+			'dest_city': city,
+			'dest_state': state,
+			'dest_zipcode': zipcode,
+			'dest_time': time
+		})
+		newDestinationAddress.save((err, savedDestinationAddress) => {
+			if (err) return res.json(err)
+			return res.json(savedDestinationAddress)
 		})
 	})
 })
